@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email | CampusFlow</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f3ff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+            padding: 32px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(70, 50, 120, 0.12);
+        }
+
+        h1 {
+            text-align: center;
+            color: #6d28d9;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 7px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: 2px solid #c4b5fd;
+            border-color: #7c3aed;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 13px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #6d28d9;
+        }
+
+        .message {
+            margin-top: 12px;
+            text-align: center;
+            color: #dc2626;
+        }
+
+        .success {
+            color: #15803d;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #555;
+        }
+
+        a {
+            color: #6d28d9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CampusFlow</h1>
+        <p class="subtitle">
+            Enter the 6-digit OTP sent to your email.
+            The code expires in 5 minutes.
+        </p>
+
+        <form th:action="@{/verify-otp}" method="post">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email"
+                   th:value="${email}" required>
+
+            <label for="otp">6-Digit OTP</label>
+            <input type="text" id="otp" name="otp"
+                   placeholder="Enter your OTP"
+                   inputmode="numeric" pattern="[0-9]{6}"
+                   maxlength="6" minlength="6" required>
+
+            <button type="submit">Verify Email</button>
+        </form>
+
+        <p class="message" th:if="${error}" th:text="${error}"></p>
+        <p class="message success" th:if="${success}" th:text="${success}"></p>
+
+        <form th:action="@{/resend-otp}" method="post">
+            <input type="hidden" name="email" th:value="${email}">
+            <button type="submit">Resend OTP</button>
+        </form>
+
+        <p class="footer">
+            <a th:href="@{/login}">Back to Login</a>
+        </p>
+    </div>
+</body>
+</html>

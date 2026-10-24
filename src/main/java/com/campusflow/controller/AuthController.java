@@ -29,22 +29,71 @@ public class AuthController {
             @RequestParam String fullName,
             @RequestParam String email,
             @RequestParam String password,
-            Model model,
-            RedirectAttributes redirectAttributes) {
+            Model model) {
 
         try {
             userService.registerUser(fullName, email, password);
-            redirectAttributes.addFlashAttribute(
-                "success",
-                "Registration successful! Please log in."
-            );
-            return "redirect:/login";
+            return "redirect:/verify-otp?email=" +
+                    java.net.URLEncoder.encode(
+                        email.trim().toLowerCase(),
+                        java.nio.charset.StandardCharsets.UTF_8
+                    );
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("fullName", fullName);
             model.addAttribute("email", email);
             return "register";
         }
+    }
+
+    @GetMapping("/verify-otp")
+    public String showOtpPage(@RequestParam(required = false) String email,
+                              Model model) {
+        model.addAttribute("email", email == null ? "" : email);
+        return "verify-otp";
+    }
+
+    @PostMapping("/verify-otp")
+    public String verifyOtp(
+            @RequestParam String email,
+            @RequestParam String otp,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
+        try {
+            userService.verifyOtp(email, otp);
+            redirectAttributes.addFlashAttribute(
+                "success",
+                "Email verified successfully! You can now log in."
+            );
+            return "redirect:/login";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("email", email);
+            return "verify-otp";
+        }
+    }
+
+    @PostMapping("/resend-otp")
+    public String resendOtp(
+            @RequestParam String email,
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            userService.resendOtp(email);
+            redirectAttributes.addFlashAttribute(
+                "success",
+                "A new OTP has been sent to your email."
+            );
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
+        return "redirect:/verify-otp?email=" +
+                java.net.URLEncoder.encode(
+                    email.trim().toLowerCase(),
+                    java.nio.charset.StandardCharsets.UTF_8
+                );
     }
 
     @GetMapping("/login")

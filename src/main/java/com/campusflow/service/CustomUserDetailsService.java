@@ -26,6 +26,12 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() ->
                     new UsernameNotFoundException("Account not found"));
 
+        if (!user.isEmailVerified()) {
+            throw new UsernameNotFoundException(
+                "Please verify your email before logging in."
+            );
+        }
+
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getEmail())
                 .password(user.getPassword())
