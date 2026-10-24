@@ -1,10 +1,17 @@
+
 package com.campusflow.repository;
 
-import com.campusflow.model.CampusTask;
-import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.campusflow.model.CampusTask;
+
 public interface CampusTaskRepository extends JpaRepository<CampusTask, Long> {
-    List<CampusTask> findAllByOrderByDueDateAsc();
-    List<CampusTask> findByCategoryIgnoreCaseOrderByDueDateAsc(String category);
+
+    List<CampusTask> findByUser_IdOrderByDueDateAsc(Long userId);
+
+    List<CampusTask> findByUser_IdAndCategoryIgnoreCaseOrderByDueDateAsc(
+            Long userId, String category);
+
 }

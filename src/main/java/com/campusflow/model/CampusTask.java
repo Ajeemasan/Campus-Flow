@@ -1,16 +1,27 @@
 package com.campusflow.model;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Entity
 public class CampusTask {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @ManyToOne
+@JoinColumn(name = "user_id")
+private User user;
+ 
+@NotBlank
     private String title;
 
     @Column(length = 1000)
@@ -49,4 +60,11 @@ public class CampusTask {
     public void setAssignedTo(String assignedTo) { this.assignedTo = assignedTo; }
     public boolean isCompleted() { return completed; }
     public void setCompleted(boolean completed) { this.completed = completed; }
+    public User getUser() {
+    return user;
+}
+
+public void setUser(User user) {
+    this.user = user;
+}
 }
