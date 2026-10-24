@@ -14,7 +14,7 @@ A starter Spring Boot web application for managing college assignments, internal
 - Spring Boot 3.5
 - Spring MVC + Thymeleaf
 - Spring Data JPA
-- H2 file-based database
+- My SQL data base
 - HTML and CSS
 
 ## Features included
