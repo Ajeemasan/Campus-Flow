@@ -4,7 +4,7 @@ A starter Spring Boot web application for managing college assignments, internal
 
 ## Team
 1. Ajeem Asan A
-2. Syed Jaffar
+2. Syed Jafar A
 3. Kaviyarasan
 4. Vignesh
 5. Sakthivel
