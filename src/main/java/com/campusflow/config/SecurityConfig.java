@@ -33,9 +33,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
-            DaoAuthenticationProvider authenticationProvider)
-            throws Exception {
+        HttpSecurity http,
+        DaoAuthenticationProvider authenticationProvider,
+        ReminderLoginSuccessHandler reminderLoginSuccessHandler)
+        throws Exception {
 
         http
             .authenticationProvider(authenticationProvider)
@@ -52,12 +53,12 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/", true)
-                .permitAll()
-            )
+    .loginPage("/login")
+    .usernameParameter("username")
+    .passwordParameter("password")
+    .successHandler(reminderLoginSuccessHandler)
+    .permitAll()
+)
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
