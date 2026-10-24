@@ -1,13 +1,16 @@
 package com.campusflow;
 
+import java.time.LocalDate;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
 import com.campusflow.model.CampusTask;
 import com.campusflow.repository.CampusTaskRepository;
-import java.time.LocalDate;
-
+@EnableScheduling
 @SpringBootApplication
 public class CampusFlowApplication {
     public static void main(String[] args) {

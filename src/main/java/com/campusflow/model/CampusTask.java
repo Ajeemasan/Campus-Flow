@@ -35,7 +35,7 @@ private User user;
 
     private String assignedTo;
     private boolean completed = false;
-
+    private boolean reminderSent = false;
     public CampusTask() {}
 
     public CampusTask(String title, String description, String category, LocalDate dueDate, String assignedTo) {
@@ -66,5 +66,12 @@ private User user;
 
 public void setUser(User user) {
     this.user = user;
+}
+public boolean isReminderSent() {
+    return reminderSent;
+}
+
+public void setReminderSent(boolean reminderSent) {
+    this.reminderSent = reminderSent;
 }
 }
